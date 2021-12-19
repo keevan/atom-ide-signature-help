@@ -2,6 +2,16 @@
 
 [![Build Status](https://badgen.net/travis/atom-ide-community/atom-ide-signature-help/master)](https://travis-ci.org/atom-ide-community/atom-ide-signature-help)
 
+__Note: Custom fork which improves current param highglighting but removes the syntax coloring otherwise used__
+![image](https://user-images.githubusercontent.com/9924643/146671319-6bb19769-45a7-4f3b-8478-55ea31774035.png)
+
+Which can then be styled as such in your application's stylesheet.
+```
+.signature-snippet code strong {
+    color: #c6b6fe;
+}
+```
+
 A replacement of the Signature Help functionality from the original Atom-IDE / Nuclide package developed by Facebook.
 
 ## Getting Started
