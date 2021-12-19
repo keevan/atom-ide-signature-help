@@ -198,6 +198,7 @@ export class SignatureHelpManager {
         this.unmountDataTip()
 
         let doc = ""
+        let snippet = signature.label
         if (parameter) {
           let parameterDocumentation = ""
           // TODO documentation can be null. Update the types!
@@ -209,7 +210,10 @@ export class SignatureHelpManager {
             // TODO undocumented type?
             parameterDocumentation = (parameter.documentation as { value: string }).value
           }
-          doc = `<b>${parameter.label}</b> ${parameterDocumentation}`
+          doc = `${parameterDocumentation}`
+          // Wrap relevant param in markdown bold styles instead of adding an extra line of redundancy to the output.
+          snippet = snippet.replace(String(parameter.label), `<strong>${parameter.label}</strong>`)
+          snippet = `<pre><code>${snippet}</code></pre>`
         } else if (signature.documentation !== null && signature.documentation !== undefined) {
           let signatureDocumentation = ""
           if (typeof signature.documentation === "string") {
@@ -226,20 +230,24 @@ export class SignatureHelpManager {
         element.className = "signature-element"
         render(
           () => (
-            <ViewContainer
-              snippet={{
-                snippet: signature.label,
-                grammarName: grammar,
-                containerClassName: "signature-snippet-container",
-                contentClassName: "signature-snippet",
-              }}
-              markdown={{
-                markdown: doc,
-                grammarName: grammar,
-                containerClassName: "signature-markdown-container",
-                contentClassName: "signature-markdown",
-              }}
-            />
+              <>
+                  <ViewContainer
+                    markdown={{
+                      markdown: snippet,
+                      grammarName: grammar,
+                      containerClassName: "signature-snippet-container",
+                      contentClassName: "signature-snippet",
+                    }}
+                  />
+                  <ViewContainer
+                    markdown={{
+                      markdown: doc,
+                      grammarName: grammar,
+                      containerClassName: "signature-markdown-container",
+                      contentClassName: "signature-markdown",
+                    }}
+                  />
+              </>
           ),
           element
         )
